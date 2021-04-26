@@ -19,18 +19,24 @@ type Configuration struct {
 }
 
 func WakeOnLANHandler(conf Configuration) func(http.ResponseWriter, *http.Request) {
-	return func(w http.ResponseWriter, r *http.Request) {
+	return func(responseWriter http.ResponseWriter, request *http.Request) {
 		mac := conf.MACAddress
 
 		if !conf.UseStaticMac {
-			params := mux.Vars(r)
+			params := mux.Vars(request)
+
+			if params == nil {
+				http.Error(responseWriter, "No MAC address was specified.", http.StatusBadRequest)
+				return
+			}
+
 			mac = params["mac"]
 		}
 
 		if packet, err := gowol.NewMagicPacket(mac); err == nil {
 			packet.Send(conf.BroadcastAddress)
 		} else {
-			http.Error(w, "Not a valid MAC address.", http.StatusBadRequest)
+			http.Error(responseWriter, "Not a valid MAC address.", http.StatusBadRequest)
 		}
 	}
 }
