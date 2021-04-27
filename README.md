@@ -30,7 +30,9 @@ The application can be configured via the conf.json file. A typical configuratio
 **Note**: If 'allow_any_mac' is set to true the go-wake-server accepts GET requests on `yourip:yourport/wake/yourMAC`. If set to false it only sends a magic packet to the MAC defined in property 'mac_address'.
 
 **Wake-on-LAN to MAC defined in conf.json**
+
 `curl 127.0.0.1:81/wake/`
 
 **Wake-on-LAN with custom MAC**
+
 `curl 127.0.0.1:81/wake/00:80:41:ae:fd:7e`
