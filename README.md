@@ -11,19 +11,16 @@ Simple http server which sends a wake on lan packet to the specific mac address.
 <sub>Built with ❤︎ by Daniel Belz</sub>
 </div><br>
 
-## Command-line arguments
-The application can be configured via command-line arguments. The following table should be self explaining.
+## Getting started
 
-### port (default: 81)
-The port on which the application should listen for http requests.
+### Command-line arguments
+The application can be configured via command-line arguments. The table shows all possible values. You can also show all command-line arguments when starting the application with the `-h` flag.
 
-### use-static-mac (default: false)
-Flag to indicate if the static 'mac-addr' value should be used when the http resource is hit.
+|Argument|Description|Default|
+|---|---|---|
+|port|The port on which the application should listen for http requests.|81|
+|use-static-mac|Flag to indicate if the static 'mac-addr' value should be used when the http resource is hit.|false|
+|mac-addr|MAC address which is used in case the 'use-static-mac' flag is set to true.|none|
+|broadcast-addr|Address to which the generated magic packet will be send.|255.255.255.255|
 
-### mac-addr (default: none)
-MAC address which is used in case the 'use-static-mac' flag is set to true.
-
-### broadcast addr (default: 255.255.255.255)
-Address to which the generated magic packet will be send.
-
-## Command-line samples
+### Command-line arguments usage
