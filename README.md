@@ -18,9 +18,9 @@ The application can be configured via command-line arguments. The table shows al
 
 |Argument|Description|Default|
 |---|---|---|
-|port|The port on which the application should listen for http requests.|81|
-|use-static-mac|Flag to indicate if the static 'mac-addr' value should be used when the http resource is hit.|false|
-|mac-addr|MAC address which is used in case the 'use-static-mac' flag is set to true.|none|
-|broadcast-addr|Address to which the generated magic packet will be send.|255.255.255.255|
+|`-port`|The port on which the application should listen for http requests.|81|
+|`-use-static-mac`|Flag to indicate if the static 'mac-addr' value should be used when the http resource is hit.|false|
+|`-mac-addr`|MAC address which is used in case the 'use-static-mac' flag is set to true.|none|
+|`-broadcast-addr`|Address to which the generated magic packet will be send.|255.255.255.255|
 
 ### Command-line arguments usage
