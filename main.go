@@ -45,7 +45,7 @@ func printConfiguration() {
 	fmt.Println("Using configuration:")
 
 	flag.VisitAll(func(f *flag.Flag) {
-		fmt.Println(f.Name + "\t" + f.Value.String())
+		fmt.Println(f.Name + "=" + f.Value.String())
 	})
 }
 
