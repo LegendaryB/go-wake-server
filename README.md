@@ -24,3 +24,20 @@ The application can be configured via command-line arguments. The table shows al
 |`-broadcast-addr`|Address to which the generated magic packet will be send.|255.255.255.255|
 
 ### Command-line arguments usage
+
+Customizing the listener port:
+```
+./go-wake-server -port 8080
+```
+Some parts may require root privileges. For example port 80.
+
+Customizing the broadcast address:
+```
+./go-wake-server -broadcast-addr myaddr
+```
+
+Using static mac only:
+```
+./go-wake-server -use-static-mac true -mac-addr 00:80:41:ae:fd:7e
+```
+When you are using static mac only the mac addresses send to the http resource are ignored and the static mac is always used.
