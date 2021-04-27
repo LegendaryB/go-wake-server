@@ -5,7 +5,7 @@
 
 [![GitHub license](https://img.shields.io/github/license/LegendaryB/go-wake-server.svg?longCache=true&style=flat-square)](https://github.com/LegendaryB/go-wake-server/blob/master/LICENSE.md)
 
-Simple http server which sends a wake on lan packet to the specific mac address.
+Simple http to Wake-on-LAN bridge.
 <br>
 <br>
 <sub>Built with ❤︎ by Daniel Belz</sub>
@@ -14,7 +14,7 @@ Simple http server which sends a wake on lan packet to the specific mac address.
 ## Getting started
 
 ### Configuration
-The application can be configured via the conf.json file. A typical conf.json looks like this:
+The application can be configured via the conf.json file. A typical configuration looks like this:
 
 ```json
 {
@@ -27,14 +27,10 @@ The application can be configured via the conf.json file. A typical conf.json lo
     }
 }
 ```
+**Note**: If 'allow_any_mac' is set to true the go-wake-server accepts GET requests on `yourip:yourport/wake/yourMAC`. If set to false it only sends a magic packet to the MAC defined in property 'mac_address'.
 
-### Waking a machine
-To wake a machine you only need to send a GET request to the http endpoint. On linux you could use `wget` or `curl`.
+**Wake-on-LAN to MAC defined in conf.json**
+`curl 127.0.0.1:81/wake/`
 
-`wget 127.0.0.1:81/wake/00:80:41:ae:fd:7e`
-
-**Status codes**
-|Status code|Message|
-|---|---|
-|200|none|
-|400|Error message of gowol err|
+**Wake-on-LAN with custom MAC**
+`curl 127.0.0.1:81/wake/00:80:41:ae:fd:7e`
