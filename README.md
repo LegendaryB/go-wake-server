@@ -29,7 +29,7 @@ The application can be configured via the conf.json file. A typical configuratio
 ```
 **Note**: When `allow_any_mac` is set to true the application allows GET requests to `yourip:yourport/wake/yourMAC` and `yourip:yourport/wake/`. 
 
-When set to false only GET requests to `yourip:yourport/wake/` are accepted. The value from property `mac_address` is used
+When set to false only GET requests to `yourip:yourport/wake/` are accepted. The value from property `mac_address` is used.
 
 **Wake-on-LAN to MAC defined in conf.json**
 
