@@ -6,6 +6,9 @@ builds:
     goarch:
       - arm
       - arm64
+archives:
+  files:
+    - conf.json
 checksum:
   name_template: 'checksums.txt'
 snapshot:
