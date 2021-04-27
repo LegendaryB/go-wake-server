@@ -41,3 +41,14 @@ Some ports may require root privileges. For example port 80.
 ./go-wake-server -use-static-mac true -mac-addr 00:80:41:ae:fd:7e
 ```
 When you are using static mac only the mac addresses send to the http resource are ignored and the static mac is always used.
+
+### Waking a machine
+To wake a machine you only need to send a GET request to the http endpoint. On linux you could use `wget` or `curl`.
+
+`wget 127.0.0.1:81/wake/00:80:41:ae:fd:7e`
+
+**Status codes**
+|Status code|Message|
+|---|---|
+|200|none|
+|400|Error message of gowol err|
