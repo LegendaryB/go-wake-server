@@ -25,18 +25,18 @@ The application can be configured via command-line arguments. The table shows al
 
 ### Command-line arguments usage
 
-Customizing the listener port:
+**Customizing the listener port**
 ```
 ./go-wake-server -port 8080
 ```
 Some ports may require root privileges. For example port 80.
 
-Customizing the broadcast address:
+**Customizing the broadcast address**
 ```
 ./go-wake-server -broadcast-addr myaddr
 ```
 
-Using static mac only:
+**Using static mac only**
 ```
 ./go-wake-server -use-static-mac true -mac-addr 00:80:41:ae:fd:7e
 ```
