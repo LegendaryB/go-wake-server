@@ -7,7 +7,7 @@ builds:
       - arm
       - arm64
 archives:
-  files:
+  - files:
     - conf.json
 checksum:
   name_template: 'checksums.txt'
