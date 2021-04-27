@@ -29,7 +29,7 @@ Customizing the listener port:
 ```
 ./go-wake-server -port 8080
 ```
-Some parts may require root privileges. For example port 80.
+Some ports may require root privileges. For example port 80.
 
 Customizing the broadcast address:
 ```
