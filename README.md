@@ -23,7 +23,7 @@ The application can be configured via command-line arguments. The table shows al
 |`-mac-addr`|MAC address which is used in case the 'use-static-mac' flag is set to true.|none|
 |`-broadcast-addr`|Address to which the generated magic packet will be send.|255.255.255.255|
 
-### Command-line arguments usage
+### Command-line argument usage
 
 **Customizing the listener port**
 ```
