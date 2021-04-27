@@ -5,7 +5,7 @@
 
 [![GitHub license](https://img.shields.io/github/license/LegendaryB/go-wake-server.svg?longCache=true&style=flat-square)](https://github.com/LegendaryB/go-wake-server/blob/master/LICENSE.md)
 
-Simple http server which sends a wake on lan packet to the specific mac address.
+Simple http to Wake-on-LAN bridge.
 <br>
 <br>
 <sub>Built with ❤︎ by Daniel Belz</sub>
@@ -13,42 +13,28 @@ Simple http server which sends a wake on lan packet to the specific mac address.
 
 ## Getting started
 
-### Command-line arguments
-The application can be configured via command-line arguments. The table shows all possible values. You can also show all command-line arguments when starting the application with the `-h` flag.
+### Configuration
+The application can be configured via the conf.json file. A typical configuration looks like this:
 
-|Argument|Description|Default|
-|---|---|---|
-|`-port`|The port on which the application should listen for http requests.|81|
-|`-use-static-mac`|Flag to indicate if the static 'mac-addr' value should be used when the http resource is hit.|false|
-|`-mac-addr`|MAC address which is used in case the 'use-static-mac' flag is set to true.|none|
-|`-broadcast-addr`|Address to which the generated magic packet will be send.|255.255.255.255|
-
-### Command-line argument usage
-
-**Customizing the listener port**
+```json
+{
+    "port": "81",
+    "allow_any_mac": false,
+    "mac_address": "38:ea:a7:a1:07:5b",
+    "broadcast": {
+        "address": "255.255.255.255",
+        "port": "9"
+    }
+}
 ```
-./go-wake-server -port 8080
-```
-Some ports may require root privileges. For example port 80.
+**Note**: When `allow_any_mac` is set to true the application allows GET requests to `yourip:yourport/wake/yourMAC` and `yourip:yourport/wake/`. 
 
-**Customizing the broadcast address**
-```
-./go-wake-server -broadcast-addr myaddr
-```
+When set to false only GET requests to `yourip:yourport/wake/` are accepted. The value from property `mac_address` is used.
 
-**Using static mac only**
-```
-./go-wake-server -use-static-mac true -mac-addr 00:80:41:ae:fd:7e
-```
-When you are using static mac only the mac addresses send to the http resource are ignored and the static mac is always used.
+**Wake-on-LAN to MAC defined in conf.json**
 
-### Waking a machine
-To wake a machine you only need to send a GET request to the http endpoint. On linux you could use `wget` or `curl`.
+`curl 127.0.0.1:81/wake/`
 
-`wget 127.0.0.1:81/wake/00:80:41:ae:fd:7e`
+**Wake-on-LAN with custom MAC**
 
-**Status codes**
-|Status code|Message|
-|---|---|
-|200|none|
-|400|Error message of gowol err|
+`curl 127.0.0.1:81/wake/00:80:41:ae:fd:7e`
