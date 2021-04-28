@@ -6,87 +6,62 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"regexp"
 
 	"github.com/gorilla/mux"
 	"github.com/linde12/gowol"
 )
 
-type BroadcastConfiguration struct {
+const ConfigurationFileName = "conf.json"
+
+type Broadcast struct {
 	Address string `json:"address"`
 	Port    string `json:"port"`
 }
 
 type Configuration struct {
-	Port        string `json:"port"`
-	AllowAnyMAC bool   `json:"allow_any_mac"`
-	MACAddress  string `json:"mac_address"`
-
-	Broadcast BroadcastConfiguration `json:"broadcast"`
+	Port      string    `json:"port"`
+	Broadcast Broadcast `json:"broadcast"`
 }
 
-func sendWakeOnLAN(mac string, broadcast_addr string, broadcast_port string) error {
+func sendWakeOnLAN(mac string, broadcast Broadcast) error {
 	packet, err := gowol.NewMagicPacket(mac)
 
 	if err != nil {
 		return err
 	}
 
-	err = packet.SendPort(broadcast_addr, broadcast_port)
-	return err
+	return packet.SendPort(broadcast.Address, broadcast.Port)
 }
 
-func StaticWakeOnLANHandler(conf Configuration) func(http.ResponseWriter, *http.Request) {
-	return func(w http.ResponseWriter, r *http.Request) {
-		err := sendWakeOnLAN(conf.MACAddress, conf.Broadcast.Address, conf.Broadcast.Port)
-
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
-		}
-	}
-}
-
-func NotAllowedHandler(w http.ResponseWriter, r *http.Request) {
-	http.Error(w, "Disabled by configuration.", http.StatusMethodNotAllowed)
-}
-
-func WakeOnLANHandler(broadcast_addr string, broadcast_port string) func(http.ResponseWriter, *http.Request) {
+func WakeOnLANHandler(conf *Configuration) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		params := mux.Vars(r)
 		mac := params["mac"]
 
-		err := sendWakeOnLAN(mac, broadcast_addr, broadcast_port)
+		fmt.Printf("Http endpoint called with parameter: %s.\n", mac)
+
+		match, _ := regexp.MatchString("^([0-9A-F]{2}[:-]){5}([0-9A-F]{2})$", mac)
+
+		if !match {
+			http.Error(w, fmt.Sprintf("'%s' is not a valid MAC address.", mac), http.StatusBadRequest)
+			return
+		}
+
+		err := sendWakeOnLAN(mac, conf.Broadcast)
 
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
+			fmt.Printf("Failed to send magic packet to '%s'.\n", mac)
+			http.Error(w, "", http.StatusBadRequest)
 		}
 	}
 }
 
-func main() {
-	conf := getConfiguration("conf.json")
-
-	fmt.Println("Listening on port " + conf.Port)
-	fmt.Printf("")
-
-	router := mux.NewRouter().StrictSlash(true)
-	router.HandleFunc("/wake/", StaticWakeOnLANHandler(conf))
-
-	if conf.AllowAnyMAC {
-		router.HandleFunc("/wake/{mac}", WakeOnLANHandler(conf.Broadcast.Address, conf.Broadcast.Port))
-	} else {
-		router.HandleFunc("/wake/{mac}", NotAllowedHandler)
-	}
-
-	listenaddr := ":" + conf.Port
-
-	log.Fatal(http.ListenAndServe(listenaddr, router))
-}
-
-func getConfiguration(file string) Configuration {
-	buffer, err := ioutil.ReadFile(file)
+func parseConfigurationFile() (*Configuration, error) {
+	buffer, err := ioutil.ReadFile(ConfigurationFileName)
 
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 
 	var conf Configuration
@@ -94,8 +69,30 @@ func getConfiguration(file string) Configuration {
 	err = json.Unmarshal(buffer, &conf)
 
 	if err != nil {
+		return nil, err
+	}
+
+	return &conf, nil
+}
+
+func listenAndServe(port string, router *mux.Router) error {
+	addr := ":" + port
+
+	fmt.Printf("Starting server on port %s...\n", port)
+	return http.ListenAndServe(addr, router)
+}
+
+func main() {
+	conf, err := parseConfigurationFile()
+
+	if err != nil {
 		log.Fatal(err)
 	}
 
-	return conf
+	router := mux.NewRouter().StrictSlash(true)
+
+	router.HandleFunc("/wake/{mac}", WakeOnLANHandler(conf))
+	fmt.Println("Added handler for http endpoint '/wake/{mac}'.")
+
+	log.Fatal(listenAndServe(conf.Port, router))
 }
