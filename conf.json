@@ -1,7 +1,5 @@
 {
     "port": "81",
-    "allow_any_mac": false,
-    "mac_address": "38:ea:a7:a1:07:5b",
     "broadcast": {
         "address": "255.255.255.255",
         "port": "9"
