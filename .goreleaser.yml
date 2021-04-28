@@ -7,7 +7,7 @@ builds:
       - arm
       - arm64
 release:
-  name_template: "{{.ProjectName}}-v{{.Version}}"
+  name_template: "v{{.Version}}"
 changelog:
   skip: true
 archives:
