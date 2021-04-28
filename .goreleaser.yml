@@ -6,7 +6,10 @@ builds:
     goarch:
       - arm
       - arm64
+release:
+  name_template: "{{.ProjectName}}-v{{.Version}}"
 archives:
+  name_template: 
   - files:
     - LICENSE.md
     - README.md
