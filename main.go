@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -11,8 +12,6 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/linde12/gowol"
 )
-
-const ConfigurationFileName = "conf.json"
 
 type Broadcast struct {
 	Address string `json:"address"`
@@ -57,8 +56,8 @@ func WakeOnLANHandler(conf *Configuration) func(http.ResponseWriter, *http.Reque
 	}
 }
 
-func parseConfigurationFile() (*Configuration, error) {
-	buffer, err := ioutil.ReadFile(ConfigurationFileName)
+func parseConfigurationFile(filename string) (*Configuration, error) {
+	buffer, err := ioutil.ReadFile(filename)
 
 	if err != nil {
 		return nil, err
@@ -83,7 +82,12 @@ func listenAndServe(port string, router *mux.Router) error {
 }
 
 func main() {
-	conf, err := parseConfigurationFile()
+	var configurationFileName string
+
+	flag.StringVar(&configurationFileName, "c", "conf.json", "Use to specify a custom configuration file.")
+	flag.Parse()
+
+	conf, err := parseConfigurationFile(configurationFileName)
 
 	if err != nil {
 		log.Fatal(err)
