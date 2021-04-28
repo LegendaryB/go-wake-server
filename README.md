@@ -26,7 +26,7 @@ The application can be configured via the conf.json file. A typical configuratio
 ```
 
 |Property|Description|
-|---|---|---|
+|---|---|
 |port|Port on which the application should listen for requests.|
 |mac_regex_pattern|The regex pattern is used to check if the given request parameter is valid.|
 |broadcast.address|The broadcast address to which the magic packet should be send.|
