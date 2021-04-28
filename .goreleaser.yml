@@ -11,7 +11,6 @@ release:
 changelog:
   skip: true
 archives:
-  name_template: 
   - files:
     - LICENSE.md
     - README.md
