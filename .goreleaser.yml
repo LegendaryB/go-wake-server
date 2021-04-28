@@ -6,8 +6,15 @@ builds:
     goarch:
       - arm
       - arm64
+release:
+  name_template: "{{.ProjectName}}-v{{.Version}}"
+changelog:
+  skip: true
 archives:
+  name_template: 
   - files:
+    - LICENSE.md
+    - README.md
     - conf.json
 checksum:
   name_template: 'checksums.txt'

@@ -5,7 +5,7 @@
 
 [![GitHub license](https://img.shields.io/github/license/LegendaryB/go-wake-server.svg?longCache=true&style=flat-square)](https://github.com/LegendaryB/go-wake-server/blob/master/LICENSE.md)
 
-Simple http to Wake-on-LAN bridge.
+Simple HTTP to Wake-on-LAN bridge.
 <br>
 <br>
 <sub>Built with ❤︎ by Daniel Belz</sub>
@@ -19,22 +19,19 @@ The application can be configured via the conf.json file. A typical configuratio
 ```json
 {
     "port": "81",
-    "allow_any_mac": false,
-    "mac_address": "38:ea:a7:a1:07:5b",
     "broadcast": {
         "address": "255.255.255.255",
         "port": "9"
     }
 }
 ```
-**Note**: When `allow_any_mac` is set to true the application allows GET requests to `yourip:yourport/wake/yourMAC` and `yourip:yourport/wake/`. 
 
-When set to false only GET requests to `yourip:yourport/wake/` are accepted. The value from property `mac_address` is used.
+### Sending a magic packet via a http call
+After you started the application you can trigger sending a Wake-on-LAN packet by calling the http resource via a GET request.
+On Unix based systems you can for example use `wget` or `curl`.
 
-**Wake-on-LAN to MAC defined in conf.json**
-
-`curl 127.0.0.1:81/wake/`
-
-**Wake-on-LAN with custom MAC**
-
+**curl**
 `curl 127.0.0.1:81/wake/00:80:41:ae:fd:7e`
+
+**wget**
+`wget 127.0.0.1:81/wake/00:80:41:ae:fd:7e`
