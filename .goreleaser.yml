@@ -8,6 +8,8 @@ builds:
       - arm64
 archives:
   - files:
+    - LICENSE.md
+    - README.md
     - conf.json
 checksum:
   name_template: 'checksums.txt'
