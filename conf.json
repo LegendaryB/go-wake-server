@@ -1,5 +1,6 @@
 {
     "port": "81",
+    "mac_regex_pattern": "^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$",
     "broadcast": {
         "address": "255.255.255.255",
         "port": "9"

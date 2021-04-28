@@ -19,8 +19,9 @@ type Broadcast struct {
 }
 
 type Configuration struct {
-	Port      string    `json:"port"`
-	Broadcast Broadcast `json:"broadcast"`
+	Port            string    `json:"port"`
+	MACRegexPattern string    `json:"mac_regex_pattern"`
+	Broadcast       Broadcast `json:"broadcast"`
 }
 
 func sendWakeOnLAN(mac string, broadcast Broadcast) error {
@@ -38,21 +39,20 @@ func WakeOnLANHandler(conf *Configuration) func(http.ResponseWriter, *http.Reque
 		params := mux.Vars(r)
 		mac := params["mac"]
 
-		fmt.Printf("Http endpoint called with parameter: %s.\n", mac)
-
-		match, _ := regexp.MatchString("^([0-9A-F]{2}[:-]){5}([0-9A-F]{2})$", mac)
+		match, _ := regexp.MatchString(conf.MACRegexPattern, mac)
 
 		if !match {
-			http.Error(w, fmt.Sprintf("'%s' is not a valid MAC address!", mac), http.StatusBadRequest)
+			http.Error(w, mac+" is not a valid MAC address!", http.StatusBadRequest)
 			return
 		}
 
 		err := sendWakeOnLAN(mac, conf.Broadcast)
 
 		if err != nil {
-			fmt.Printf("Failed to send magic packet to '%s'!\n", mac)
-			http.Error(w, "", http.StatusBadRequest)
+			http.Error(w, "Failed to sent magic packet to "+mac, http.StatusBadRequest)
 		}
+
+		w.Write([]byte(http.StatusText(200)))
 	}
 }
 
