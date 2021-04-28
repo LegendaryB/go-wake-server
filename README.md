@@ -5,7 +5,7 @@
 
 [![GitHub license](https://img.shields.io/github/license/LegendaryB/go-wake-server.svg?longCache=true&style=flat-square)](https://github.com/LegendaryB/go-wake-server/blob/master/LICENSE.md)
 
-Simple http to Wake-on-LAN bridge.
+Simple HTTP to Wake-on-LAN bridge.
 <br>
 <br>
 <sub>Built with ❤︎ by Daniel Belz</sub>
