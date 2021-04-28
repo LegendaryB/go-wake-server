@@ -44,14 +44,14 @@ func WakeOnLANHandler(conf *Configuration) func(http.ResponseWriter, *http.Reque
 		match, _ := regexp.MatchString("^([0-9A-F]{2}[:-]){5}([0-9A-F]{2})$", mac)
 
 		if !match {
-			http.Error(w, fmt.Sprintf("'%s' is not a valid MAC address.", mac), http.StatusBadRequest)
+			http.Error(w, fmt.Sprintf("'%s' is not a valid MAC address!", mac), http.StatusBadRequest)
 			return
 		}
 
 		err := sendWakeOnLAN(mac, conf.Broadcast)
 
 		if err != nil {
-			fmt.Printf("Failed to send magic packet to '%s'.\n", mac)
+			fmt.Printf("Failed to send magic packet to '%s'!\n", mac)
 			http.Error(w, "", http.StatusBadRequest)
 		}
 	}

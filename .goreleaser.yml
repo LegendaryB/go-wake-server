@@ -8,6 +8,8 @@ builds:
       - arm64
 release:
   name_template: "{{.ProjectName}}-v{{.Version}}"
+changelog:
+  skip: true
 archives:
   name_template: 
   - files:
