@@ -26,12 +26,14 @@ The application can be configured via the conf.json file. A typical configuratio
 }
 ```
 
-### Sending a magic packet via a http call
-After you started the application you can trigger sending a Wake-on-LAN packet by calling the http resource via a GET request.
-On Unix based systems you can for example use `wget` or `curl`.
+### Sending a magic packet via http
+You can trigger sending a Wake-on-LAN packet by sending a GET request to the http endpoint.
+On Unix based systems you can use `wget` or `curl` for that purpose.
 
 **curl**
+
 `curl 127.0.0.1:81/wake/00:80:41:ae:fd:7e`
 
 **wget**
+
 `wget 127.0.0.1:81/wake/00:80:41:ae:fd:7e`
